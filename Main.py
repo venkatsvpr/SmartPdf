@@ -51,3 +51,13 @@ def MergePdf (pathToInputs, pageList, orientationDict, pathToOutputPdf):
         outFile.close()
     except:
         continue
+
+
+def DocToPdf (listOfDocFilePath, listOfOutputFilePath):
+    """
+    Convert the doc file in the doc-file path into a pdf file from
+    listOfOutputFilePath
+    :param listOfDocFilePath: Contains a list of doc files
+    :param listOfOutputFilePath: Contains a list of pdf file (output
+    :return:
+    """
