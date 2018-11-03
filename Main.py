@@ -99,3 +99,13 @@ def DocToPdf (listOfDocFilePath, listOfOutputFilePath):
     :param listOfOutputFilePath: Contains a list of pdf file (output
     :return:
     """
+    wdFormatPDF = 17
+    for i in range(0, len(listOfDocFilePath)):
+        inputDocFilePath = listOfDocFilePath[i]
+        outputDocFilePath = listOfOutputFilePath[i]
+        word = comtypes.client.CreateObject('Word.Application')
+        word.Visible = False
+        doc = word.Documents.Open(inputDocFilePath)
+        doc.SaveAs(outputDocFilePath, FileFormat=wdFormatPDF)
+        doc.Close()
+        word.Quit()
