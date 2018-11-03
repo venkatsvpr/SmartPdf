@@ -24,7 +24,7 @@ def WaterMark (inputPdfPath, waterMarkPath, pageList, outputPdfPath):
     Add WaterMark to the inputFile for the pages in the pageList.
     Use the watermark from the waterMarkPath, the watermark pdf should have only one page
     Store the output on the outputPdfPath
-    
+
     :param inputPdfPath: List of paths of input pdf files
     :param waterMarkPath: String to the watermark path
     :param pageList:  List of page numbers where we need the watermark
@@ -71,24 +71,19 @@ def MergePdf (pathToInputs, pageList, orientationDict, pathToOutputPdf):
     :return:
     """
     pdfWriter = PyPDF2.PdfFileWriter()
+    outFile = open(pathToOutputPdf,"wb+")
     for inputFilePath,pages,orient in zip(pathToInputs, pageList, orientationDict):
-        try:
-            inputFileObject = open (inputFilePath,"rb")
-            pdf = PyPDF2.PdfFileReader(inputFileObject)
-            for page in pages:
-                if (0 <= page < pdf.numPags):
-                    pageObject = pdf.getPage(page)
-                    #pageObject.rotateClockwise(90)
-                    pdfWriter.addPage(pageObject)
-            inputFileObject.close()
-        except:
-            continue
-    try:
-        outFile = open(pathToOutputPdf,"wb")
-        pdfWriter.write(outFile)
-        outFile.close()
-    except:
-        continue
+        inputFileObject = open(inputFilePath, "rb")
+        pdf = PyPDF2.PdfFileReader(inputFileObject)
+        for page in pages:
+            if (0 <= page < pdf.numPages):
+                pageObject = pdf.getPage(page)
+                #pageObject.rotateClockwise(90)
+                pdfWriter.addPage(pageObject)
+                pdfWriter.write(outFile)
+        inputFileObject.close()
+    outFile.close()
+
 
 
 def DocToPdf (listOfDocFilePath, listOfOutputFilePath):
@@ -109,3 +104,6 @@ def DocToPdf (listOfDocFilePath, listOfOutputFilePath):
         doc.SaveAs(outputDocFilePath, FileFormat=wdFormatPDF)
         doc.Close()
         word.Quit()
+
+path = r"D:\Git_Projects\SmartPdf\1.pdf"
+MergePdf ([path,path],[[3,4],[1,2,3]],["one","two"],"D:\Git_Projects\SmartPdf\out.pdf")
