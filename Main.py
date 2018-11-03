@@ -1,10 +1,23 @@
 from Globals import *
 
-def expandPages (strPageList):
-    """
-    :param strPageList:
-    :return: list of page numbers
-    """
+def expandPages (strPageList, maxPageCount):
+   """
+   :param strPageList:
+   :return: list of page numbers
+   """
+   pages = strPageList.split(',')
+   page_numbers = []
+   for p in pages:
+       if '-' in p:
+           first_last = p.split('-')
+           start = int(first_last[0])
+           while(start <= int(first_last[1])):
+               if start < maxPageCount:
+                   page_numbers.append(start)
+               start += 1
+       else:
+           page_numbers.append(int(p))
+   return page_numbers
 
 def MergePdf (pathToInputs, pageList, orientationDict, pathToOutputPdf):
     """
@@ -13,7 +26,7 @@ def MergePdf (pathToInputs, pageList, orientationDict, pathToOutputPdf):
     Testing the method
 
     Open the input file, pick the pages passed, do the orientation and push it to output.
-    :param pathToInputs:
+    :param pathToInputs: List of paths
     :param pageList:
     :param orientationDict:
     :param pathToOutputPdf:
@@ -38,4 +51,3 @@ def MergePdf (pathToInputs, pageList, orientationDict, pathToOutputPdf):
         outFile.close()
     except:
         continue
-
