@@ -38,27 +38,32 @@ def WaterMark (inputPdfPath, waterMarkPath, pageList, outputPdfPath):
     return
 
 def expandPages (strPageList, maxPageCount):
-   """
-    Parses the input strings are converts into a list of page numbers.
+    """
+    :param strPageList:
+    :return: list of page numbers
     Input "1,2-4,10,4"
-    Output  [1,2,3,4,10,4]
-
-   :param strPageList:
-   :return: list of page numbers
-   """
-   pages = strPageList.split(',')
-   page_numbers = []
-   for p in pages:
-       if '-' in p:
-           first_last = p.split('-')
-           start = int(first_last[0])
-           while(start <= int(first_last[1])):
-               if start < maxPageCount:
-                   page_numbers.append(start)
-               start += 1
-       else:
-           page_numbers.append(int(p))
-   return page_numbers
+    Output  [0,1,2,3,9,3] as page ids
+    """
+    page_numbers = []
+    if strPageList == "*":
+        start = 0
+        while(start < maxPageCount):
+            page_numbers.append(start)
+            start += 1
+        return page_numbers
+    pages = strPageList.split(',')
+    for p in pages:
+        if '-' in p:
+            first_last = p.split('-')
+            start = int(first_last[0]) - 1
+            while(start < int(first_last[1])):
+                if ((start < maxPageCount) and (start >= 0)):
+                    page_numbers.append(start)
+                start += 1
+        else:
+            if ((int(p) > 0) and (int(p) < maxPageCount)):
+                page_numbers.append(int(p) - 1)
+    return page_numbers
 
 def MergePdf (pathToInputs, pageList, orientationDict, pathToOutputPdf):
     """
@@ -176,6 +181,7 @@ def genTempFileName (filePath):
     :return: string of a temporary pdf file generated
     """
     id = hashlib.md5(filePath.encode('utf-8')).hexdigest()
+
     return str(id)
 def deleteFiles (listOfFilesToDelete):
     """
@@ -228,7 +234,7 @@ def apiGenericMerge (pathToInputs, strPageList, orientation, outputFile) :
         pageList.append(expandPages(strRange, path))
     if (any([isFilePdf(path) for path in pathToInputs]) and any([isFileDoc(path) for path in pathToInputs])):
         apiMergeDocPdf (pathToInputs, pageList, orientation, outputFile)
-    elif (all[isFilePdf(path) for path in pathToInputs]):
+    elif (all([isFilePdf(path) for path in pathToInputs])):
         apiMergePdf (pathToInputs, pageList, orientation, outputFile)
     else:
         print (" have to code")
@@ -242,12 +248,12 @@ def apiMergePdf(inputFilePaths, pageLists, orientation, pathToOutputPdf):
     :param pathToOutputPdf:
     :return:
     """
-    pageList = []
-    for inputFileId in range(0,len(inputFilePaths)):
-        pages = expandPages (pageLists[inputFileId], getMaxPageCount (inputFilePaths[inputFileId]))
-        pageList.append(pages)
+    # pageList = []
+    # for inputFileId in range(0,len(inputFilePaths)):
+    #     pages = expandPages (pageLists[inputFileId], getMaxPageCount (inputFilePaths[inputFileId]))
+    #     pageList.append(pages)
     MergePdf(inputFilePaths, pageList, orientation, pathToOutputPdf)
     return
 
-path = r"D:\Git_Projects\SmartPdf\1.pdf"
-MergePdf ([path,path],[[3,4],[1,2,3]],["one","two"],"D:\Git_Projects\SmartPdf\out.pdf")
+# path = r"D:\Git_Projects\SmartPdf\1.pdf"
+# MergePdf ([path,path],[[3,4],[1,2,3]],["one","two"],"D:\Git_Projects\SmartPdf\out.pdf")
