@@ -5,6 +5,7 @@ class File(models.Model):
     name = models.CharField(max_length=255)
     pages = models.CharField(max_length=15)
     check = models.BooleanField(default = False)
+    watermark = models.CharField(max_length=255, default = "")
 
     class Meta:
         db_table = 'file'

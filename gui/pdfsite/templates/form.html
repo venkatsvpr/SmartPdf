@@ -65,7 +65,7 @@
 				<div class="col-md-1">
 					<label>{{form.name.label}}</label>
 				</div>
-				<div class="col-md-2 nopadding">
+				<div class="col-md-1 nopadding">
 					<div class="input-group">
 						{{form.name}}
 					</div>
@@ -74,7 +74,7 @@
 				<div class="col-md-1">
 					<label>{{form.pages.label}}</label>
 				</div>
-				<div class="col-md-2 nopadding">
+				<div class="col-md-1 nopadding">
 					<div class="input-group">
 						{{form.pages}}
 					</div>
@@ -83,16 +83,29 @@
 				<div class="col-md-1">
 					<label>{{form.check.label}}</label>
 				</div>
-				<div class="col-md-1 nopadding">
+				<div class="col-sm-1 nopadding">
 					 <div class="input-group">
 						{{form.check}}
 					</div>
 				</div>
+				
+				<div class="col-md-2">
+					<label>{{form.watermark.label}}</label>
+				</div>
+				<div class="col-md-1 nopadding">
+					<div class="input-group">
+						{{form.watermark}}
+					</div>
+				</div>
+				
 				<div class="col-md-2">
 						<button class="btn btn-success add-form-row" type = "button" name = "s">+</button>
 				</div>
 			</div>
+			
+			
 		{% endfor %}
+		
 	<div class="row spacer">
 		<div class="col-md-1">
 			<button type="submit" class="btn btn-block btn-primary">Create</button>

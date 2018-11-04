@@ -27,4 +27,13 @@ class FileForm(forms.Form):
         widget=forms.CheckboxInput()
     )
     
+    watermark = forms.CharField(
+        label='Enter Watermark(Optional):',
+        required = False,
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Watermark...'
+        })
+    )
+    
 FileFormset = formset_factory(FileForm, extra=1)

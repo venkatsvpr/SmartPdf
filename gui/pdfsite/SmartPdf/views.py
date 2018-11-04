@@ -24,14 +24,15 @@ def index(request):
     inputpaths = []
     pagelists = []
     orientation = []
+    watermark = ""
     if request.method == 'GET':
         formset = FileFormset(request.GET or None)
     elif request.method == 'POST':
         for x in File.objects.all():
             x.delete()
-
         formset = FileFormset(request.POST)
         if formset.is_valid():
+            print(formset)
             for form in formset:
                 # extract name from each form and save
                 name = form.cleaned_data.get('name')
@@ -39,14 +40,20 @@ def index(request):
                 check = form.cleaned_data.get('check')
                 inputpaths.append(name)
                 orientation.append("S")
-                if(check):
+                temp_wm = form.cleaned_data.get('watermark')
+                if(len(temp_wm)>0):
+                    watermark = temp_wm
+                if(check or len(pagenos) == 0):
                     pagelists.append("*")
                 else:
                     pagelists.append(pagenos)
                 # save file instance
                 if name and pagenos:
                     File(name=name,pages = pagenos).save()
-            apiGenericMerge(inputpaths,pagelists,orientation,r"D:\Downloads\merged.pdf")
+            if(len(watermark)>0):
+                apiWaterMark(inputpaths,pagelists,watermark,orientation,r"D:\Downloads\merged.pdf")
+            else:
+                apiGenericMerge(inputpaths,pagelists,orientation,r"D:\Downloads\merged.pdf")
             return redirect('complete')
     return render(request, template_name, {
         'formset': formset,
