@@ -1,5 +1,7 @@
 from Globals import *
 
+TEMPORARY_DIR_PATH = None
+
 def WaterMark (inputPdfPath, waterMarkPath, pageList, outputPdfPath):
     """
     Add WaterMark to the inputFile for the pages in the pageList.
@@ -181,9 +183,12 @@ def genTempFileName (filePath):
     :param filePath: stringof a path
     :return: string of a temporary pdf file generated
     """
+    global TEMPORARY_DIR_PATH
+    if not TEMPORARY_DIR_PATH:
+        TEMPORARY_DIR_PATH = tempfile.mkdtemp()
     id = hashlib.md5(filePath.encode('utf-8')).hexdigest()
-
-    return str(id)
+    return TEMPORARY_DIR_PATH + "\\" + str(id)
+    
 def deleteFiles (listOfFilesToDelete):
     """
     Delete the list of files passed to this
