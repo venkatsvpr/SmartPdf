@@ -1,14 +1,12 @@
 from Globals import *
 
-TEMPORARY_DIR_PATH = None
-
 def WaterMark (inputPdfPath, waterMarkPath, pageList, outputPdfPath):
     """
     Add WaterMark to the inputFile for the pages in the pageList.
     Use the watermark from the waterMarkPath, the watermark pdf should have only one page
     Store the output on the outputPdfPath
 
-    :param inputPdfPath: List of paths of input pdf files
+    :param inputPdfPath: String of the path of input
     :param waterMarkPath: String to the watermark path
     :param pageList:  List of page numbers where we need the watermark
     :param outputPdfPath:
@@ -253,3 +251,11 @@ def apiMergePdf(inputFilePaths, pageLists, orientation, pathToOutputPdf):
         pageList.append(pages)
     MergePdf(inputFilePaths, pageList, orientation, pathToOutputPdf)
     return
+
+def apiWaterMark(inputFilePaths, strPageList, waterMarkFilePath, orientation, pathToOutputPdf):
+    tempFile = genTempFileName("temporaryFile")
+    apiGenericMerge (inputFilePaths, strPageList, orientation, tempFile)
+    pageList = [0:range(getMaxPageCount(tempFile))]
+    WaterMark (tempFile, waterMarkFilePath, pageList, outputPdfPath)
+    deleteFiles([tempFile])
+    return;
