@@ -2,6 +2,7 @@
 A free smart pdf utility
 APIs built
 
+```
 def apiMergeDocPdf (pathToInputs, strPageList, orientation, outputFile) :
     """
     Merges Doc and Pdfs, Internally converts the pdf to doc and performs merge
@@ -11,7 +12,9 @@ def apiMergeDocPdf (pathToInputs, strPageList, orientation, outputFile) :
     :param outputFile:   string, output file name
     :return:
     """
+```
 
+```
 def apiGenericMerge (pathToInputs, strPageList, orientation, outputFile) :
     """
     Generic Merge function that is called from the GUI,
@@ -22,7 +25,9 @@ def apiGenericMerge (pathToInputs, strPageList, orientation, outputFile) :
     :param outputFile:     string of the output file name
     :return:
     """
+```
 
+```
 def apiMergePdf(inputFilePaths, pageLists, orientation, pathToOutputPdf):
     """
     merge the pdfs based on the pageList corresponding to the inputfile into one output file
@@ -32,7 +37,9 @@ def apiMergePdf(inputFilePaths, pageLists, orientation, pathToOutputPdf):
     :param pathToOutputPdf:
     :return:
     """
+```
 
+```
 def apiWaterMark(inputFilePaths, strPageList, waterMarkFilePath, orientation, pathToOutputPdf):
     """
     Merges the Input File Paths based on the Pagelist, 
@@ -44,7 +51,9 @@ def apiWaterMark(inputFilePaths, strPageList, waterMarkFilePath, orientation, pa
     :param pathToOutputPdf: path to the output pdf file
     :return: 
     """
-    
+```
+
+```
 def apiWordToPdf (pathToInputs, outputFilePath):
     """
     Join all the input paths to one output PDF File
@@ -52,3 +61,4 @@ def apiWordToPdf (pathToInputs, outputFilePath):
     :param outputFilePath:
     :return:
     """
+```
