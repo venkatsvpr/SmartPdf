@@ -234,7 +234,7 @@ def apiGenericMerge (pathToInputs, strPageList, orientation, outputFile) :
         apiMergeDocPdf (pathToInputs, strPageList, orientation, outputFile)
     else:
         print("Invalid input format.")
-
+    return
 
 def apiMergePdf(inputFilePaths, pageLists, orientation, pathToOutputPdf):
     """
@@ -265,10 +265,10 @@ def apiWaterMark(inputFilePaths, strPageList, waterMarkFilePath, orientation, pa
     """
     tempFile = genTempFileName("temporaryFile")
     apiGenericMerge (inputFilePaths, strPageList, orientation, tempFile)
-    pageList = [0:range(getMaxPageCount(tempFile))]
-    WaterMark (tempFile, waterMarkFilePath, pageList, outputPdfPath)
+    pageList = range(getMaxPageCount(tempFile))
+    WaterMark (tempFile, waterMarkFilePath, pageList, pathToOutputPdf)
     deleteFiles([tempFile])
-    return;
+    return
 
 
 def apiWordToPdf (pathToInputs, outputFilePath):
@@ -291,3 +291,4 @@ def apiWordToPdf (pathToInputs, outputFilePath):
     strPageList = ["*"] * len(listOfPdfs)
     apiMergePdf(listOfPdfs, strPageList, None, outputFilePath)
     deleteFiles(tempPdfList)
+    return
