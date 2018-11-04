@@ -133,15 +133,43 @@ def DocToPdf (listOfDocFilePath, listOfOutputFilePath):
     return
 
 def isFilePdf (filePath):
+    """
+    checks and returns True/False if the filename passed on filePath is a actually a pdf file
+    :param filePath: string of the path of the file
+    :return: True/False
+    """
 
 def isFileDoc (filePath):
+    """
+    checks and returns True/False if the filename passed on filePath is a actually a doc file
+    :param filePath: string .. of path of the file
+    :return:  True/False
+    """
 
 
 def genTempFileName (filePath):
+    """
+    Generate a temporary file based on the file path passed
+    :param filePath: stringof a path
+    :return: string of a temporary pdf file generated
+    """
 
 def deleteFiles (listOfFilesToDelete):
+    """
+    Delete the list of files passed to this
+    :param listOfFilesToDelete:
+    :return: Nothing
+    """
 
 def apiMergeDocPdf (pathToInputs, strPageList, orientation, outputFile) :
+    """
+    Merges Doc and Pdfs, Internally converts the pdf to doc and performs merge
+    :param pathToInputs: list of strings
+    :param strPageList:   list of strings
+    :param orientation:  orientation which is not currently used
+    :param outputFile:   string, output file name
+    :return:
+    """
     input = []
     tempPdfFile = []
     for path in pathToInputs:
@@ -163,6 +191,15 @@ def apiMergeDocPdf (pathToInputs, strPageList, orientation, outputFile) :
 
 
 def apiGenericMerge (pathToInputs, strPageList, orientation, outputFile) :
+    """
+    Generic Merge function that is called from the GUI,
+    internally converts file appropriately and merges it to the output file
+    :param pathToInputs:  list of strings
+    :param strPageList:   list of strings
+    :param orientation:   doesnt matter
+    :param outputFile:     string of the output file name
+    :return:
+    """
     pageList = []
     for path,strRange in zip(pathToInputs, strPageList):
         pageList.append(expandPages(strRange, path))
@@ -173,14 +210,21 @@ def apiGenericMerge (pathToInputs, strPageList, orientation, outputFile) :
     else:
         print (" have to code")
 
-def apiMergePdf(inputFilePaths, pageLists, pathToOutputPdf):
+def apiMergePdf(inputFilePaths, pageLists, orientation, pathToOutputPdf):
+    """
+    merge the pdfs based on the pageList corresponding to the inputfile into one output file
+    :param inputFilePaths:
+    :param pageLists:
+    :param orientation:
+    :param pathToOutputPdf:
+    :return:
+    """
     pageList = []
     for inputFileId in range(0,len(inputFilePaths)):
         pages = expandPages (pageLists[inputFileId], getMaxPageCount (inputFilePaths[inputFileId]))
         pageList.append(pages)
-    MergePdf(inputFilePaths, pageList, None, pathToOutputPdf)
+    MergePdf(inputFilePaths, pageList, orientation, pathToOutputPdf)
     return
 
-def ApiMergeDocPdf ()
 path = r"D:\Git_Projects\SmartPdf\1.pdf"
 MergePdf ([path,path],[[3,4],[1,2,3]],["one","two"],"D:\Git_Projects\SmartPdf\out.pdf")
