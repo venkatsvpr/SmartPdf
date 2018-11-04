@@ -3,11 +3,19 @@ from .forms import FileFormset
 from .models import File
 from django.contrib import messages
 import sys
+import os
 
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-sys.path.insert(0,'D:\Projects\Django Projects\SmartPdf\\backend')
+MAIN_PATH = ""
+for x in next(os.walk(BASE_DIR))[1]:
+   if(x=='backend'):
+       MAIN_PATH = str(BASE_DIR) + "\\" + str(x)
+
+sys.path.insert(0,MAIN_PATH)
 
 from Main import *
+
 # Create your views here.
 
 def index(request):
@@ -15,6 +23,7 @@ def index(request):
     heading_message = 'PDF Merger'
     inputpaths = []
     pagelists = []
+    orientation = []
     if request.method == 'GET':
         formset = FileFormset(request.GET or None)
     elif request.method == 'POST':
@@ -28,12 +37,12 @@ def index(request):
                 name = form.cleaned_data.get('name')
                 pagenos = form.cleaned_data.get('pages')
                 inputpaths.append(name)
-                maxPageCount = getMaxPageCount(name)
-                pagelists.append(expandPages(pagenos,maxPageCount))
+                orientation.append("S")
+                pagelists.append(pagenos)
                 # save file instance
                 if name and pagenos:
                     File(name=name,pages = pagenos).save()
-            MergePdf(inputpaths,pagelists,["hello"],r"D:\Downloads\merged.pdf")
+            apiGenericMerge(inputpaths,pagelists,orientation,r"D:\Downloads\merged.pdf")
             return redirect('complete')
     return render(request, template_name, {
         'formset': formset,
