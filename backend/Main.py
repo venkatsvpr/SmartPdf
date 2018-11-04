@@ -101,8 +101,8 @@ def getMaxPageCount (inputFilePath):
     :param inputFilePath:
     :return:
     """
-    print("&&&&", inputFilePath)
-    inputFile = open(inputFilePath, "rb")
+    inputFilePath = os.path.normpath(inputFilePath)
+    inputFile = open(inputFilePath,"rb")
     inFileReader = PyPDF2.PdfFileReader(inputFile)
     numberOfPages = inFileReader.numPages
     inputFile.close()
@@ -131,10 +131,10 @@ def DocToPdf (listOfDocFilePath, listOfOutputFilePath):
     wdFormatPDF = 17
     for i in range(0, len(listOfDocFilePath)):
         inputDocFilePath = listOfDocFilePath[i]
-        outputDocFilePath = listOfOutputFilePath[i]
         word = comtypes.client.CreateObject('Word.Application')
         word.Visible = False
         doc = word.Documents.Open(inputDocFilePath)
+        outputDocFilePath = listOfOutputFilePath[i]
         doc.SaveAs(outputDocFilePath, FileFormat=wdFormatPDF)
         doc.Close()
         word.Quit()
@@ -187,7 +187,7 @@ def genTempFileName (filePath):
     if not TEMPORARY_DIR_PATH:
         TEMPORARY_DIR_PATH = tempfile.mkdtemp()
     id = hashlib.md5(filePath.encode('utf-8')).hexdigest()
-    return TEMPORARY_DIR_PATH + "\\" + str(id)
+    return TEMPORARY_DIR_PATH + "\\" + str(id)+".pdf"
     
 def deleteFiles (listOfFilesToDelete):
     """
@@ -211,14 +211,13 @@ def apiMergeDocPdf (pathToInputs, strPageList, orientation, outputFile) :
         if (isFileDoc(path)):
             tempFile = genTempFileName(path)
             tempPdfFile.append(tempFile)
-            DocToPdf(path, tempFile)
+            DocToPdf([path], [tempFile])
         else:
             tempFile = path
         listOfPdfs.append(tempFile)
     apiMergePdf(listOfPdfs, strPageList, orientation, outputFile)
     deleteFiles (tempPdfFile)
     return
-
 
 def apiGenericMerge (pathToInputs, strPageList, orientation, outputFile) :
     """
@@ -231,8 +230,6 @@ def apiGenericMerge (pathToInputs, strPageList, orientation, outputFile) :
     :return:
     """
     pageList = []
-    print("************ generic")
-    print("inputs: ", pathToInputs," pages: ", strPageList)
     if (any([isFilePdf(path) for path in pathToInputs]) and any([isFileDoc(path) for path in pathToInputs])):
         apiMergeDocPdf (pathToInputs, strPageList, orientation, outputFile)
     elif (all([isFilePdf(path) for path in pathToInputs])):
@@ -255,6 +252,3 @@ def apiMergePdf(inputFilePaths, pageLists, orientation, pathToOutputPdf):
         pageList.append(pages)
     MergePdf(inputFilePaths, pageList, orientation, pathToOutputPdf)
     return
-
-# path = r"D:\Git_Projects\SmartPdf\1.pdf"
-# MergePdf ([path,path],[[3,4],[1,2,3]],["one","two"],"D:\Git_Projects\SmartPdf\out.pdf")
