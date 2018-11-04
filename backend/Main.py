@@ -138,14 +138,36 @@ def isFilePdf (filePath):
     :param filePath: string of the path of the file
     :return: True/False
     """
-
+    pathString = magic.from_file(filePath, mime=True)
+    if "/" in pathString:
+        pathString = pathString.split("/")[1]
+        if "." in pathString:
+            pathString = pathString.split(".")
+            pathString = pathString[len(pathString)-1]
+        if pathString == "pdf":
+            return True
+        else:
+            return False
+    else:
+        return False
 def isFileDoc (filePath):
     """
     checks and returns True/False if the filename passed on filePath is a actually a doc file
     :param filePath: string .. of path of the file
     :return:  True/False
     """
-
+    pathString = magic.from_file(filePath, mime=True)
+    if "/" in pathString:
+        pathString = pathString.split("/")[1]
+        if "." in pathString:
+            pathString = pathString.split(".")
+            pathString = pathString[len(pathString)-1]
+        if pathString == "document":
+            return True
+        else:
+            return False
+    else:
+        return False
 
 def genTempFileName (filePath):
     """
@@ -153,7 +175,8 @@ def genTempFileName (filePath):
     :param filePath: stringof a path
     :return: string of a temporary pdf file generated
     """
-
+    id = hashlib.md5(filePath.encode('utf-8')).hexdigest()
+    return str(id)
 def deleteFiles (listOfFilesToDelete):
     """
     Delete the list of files passed to this
