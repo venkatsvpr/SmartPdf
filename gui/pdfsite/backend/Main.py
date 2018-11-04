@@ -129,6 +129,7 @@ def DocToPdf (listOfDocFilePath, listOfOutputFilePath):
     wdFormatPDF = 17
     for i in range(0, len(listOfDocFilePath)):
         inputDocFilePath = listOfDocFilePath[i]
+        CoInitialize()
         word = comtypes.client.CreateObject('Word.Application')
         word.Visible = False
         doc = word.Documents.Open(inputDocFilePath)

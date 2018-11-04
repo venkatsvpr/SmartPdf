@@ -51,9 +51,9 @@ def index(request):
                 if name and pagenos:
                     File(name=name,pages = pagenos).save()
             if(len(watermark)>0):
-                apiWaterMark(inputpaths,pagelists,watermark,orientation,r"D:\Downloads\merged.pdf")
+                apiWaterMark(inputpaths,pagelists,watermark,orientation,r"D:\Downloads\Output\merged.pdf")
             else:
-                apiGenericMerge(inputpaths,pagelists,orientation,r"D:\Downloads\merged.pdf")
+                apiGenericMerge(inputpaths,pagelists,orientation,r"D:\Downloads\Output\merged.pdf")
             return redirect('complete')
     return render(request, template_name, {
         'formset': formset,
