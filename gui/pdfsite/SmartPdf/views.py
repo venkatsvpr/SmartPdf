@@ -36,9 +36,13 @@ def index(request):
                 # extract name from each form and save
                 name = form.cleaned_data.get('name')
                 pagenos = form.cleaned_data.get('pages')
+                check = form.cleaned_data.get('check')
                 inputpaths.append(name)
                 orientation.append("S")
-                pagelists.append(pagenos)
+                if(check):
+                    pagelists.append("*")
+                else:
+                    pagelists.append(pagenos)
                 # save file instance
                 if name and pagenos:
                     File(name=name,pages = pagenos).save()

@@ -13,10 +13,18 @@ class FileForm(forms.Form):
     
     pages = forms.CharField(
         label='Enter page range:',
+        required = False,
         widget=forms.TextInput(attrs={
             'class': 'form-control',
             'placeholder': '1-5,7'
         })
+    )
+    
+    check = forms.BooleanField(
+        label = 'Include all pages?',
+        initial = False,
+        required = False,
+        widget=forms.CheckboxInput()
     )
     
 FileFormset = formset_factory(FileForm, extra=1)
