@@ -3,3 +3,5 @@ gui/pdfsite/SmartPdf/__pycache__/views.cpython-36.pyc
 gui/pdfsite/SmartPdf/__pycache__/models.cpython-36.pyc
 gui/pdfsite/SmartPdf/__pycache__/forms.cpython-36.pyc
 gui/pdfsite/pdfsite/__pycache__/settings.cpython-36.pyc
+gui/pdfsite/backend/__pycache__/Globals.cpython-36.pyc
+gui/pdfsite/backend/__pycache__/Main.cpython-36.pyc
