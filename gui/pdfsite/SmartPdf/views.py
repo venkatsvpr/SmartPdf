@@ -1,7 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from .forms import FileFormset
 from .models import File
+from django.contrib import messages
 import sys
+
 
 sys.path.insert(0,'D:\Projects\Django Projects\SmartPdf\\backend')
 
@@ -9,7 +11,7 @@ from Main import *
 # Create your views here.
 
 def index(request):
-    template_name = 'index.html'
+    template_name = 'form.html'
     heading_message = 'PDF Merger'
     inputpaths = []
     pagelists = []
@@ -31,9 +33,13 @@ def index(request):
                 # save file instance
                 if name and pagenos:
                     File(name=name,pages = pagenos).save()
-                
-            MergePdf(inputpaths,pagelists,None,r"D:\Downloads\abc.pdf")
+            MergePdf(inputpaths,pagelists,["hello"],r"D:\Downloads\merged.pdf")
+            return redirect('complete')
     return render(request, template_name, {
         'formset': formset,
         'heading': heading_message,
     })
+    
+def complete(request):
+    template_name = 'alert.html'
+    return render(request,template_name)
