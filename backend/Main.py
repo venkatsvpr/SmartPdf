@@ -253,9 +253,41 @@ def apiMergePdf(inputFilePaths, pageLists, orientation, pathToOutputPdf):
     return
 
 def apiWaterMark(inputFilePaths, strPageList, waterMarkFilePath, orientation, pathToOutputPdf):
+    """
+    Merges the Input File Paths based on the Pagelist, 
+    add waterMark based on the waterMarkFile and the add the output to pathToOutput
+    :param inputFilePaths: list of string paths
+    :param strPageList:  list of strings representing areas of interest
+    :param waterMarkFilePath: path to the watermark file
+    :param orientation: orientation-- dont worry
+    :param pathToOutputPdf: path to the output pdf file
+    :return: 
+    """
     tempFile = genTempFileName("temporaryFile")
     apiGenericMerge (inputFilePaths, strPageList, orientation, tempFile)
     pageList = [0:range(getMaxPageCount(tempFile))]
     WaterMark (tempFile, waterMarkFilePath, pageList, outputPdfPath)
     deleteFiles([tempFile])
     return;
+
+
+def apiWordToPdf (pathToInputs, outputFilePath):
+    """
+    Join all the input paths to one output PDF File
+    :param pathToInputs: list of strings representing the path
+    :param outputFilePath:
+    :return:
+    """
+    listOfPdfs = []
+    tempPdfList = []
+    for path in pathToInputs:
+        if (isFileDoc(path)):
+            tempFile = genTempFileName(path)
+            tempPdfList.append(tempFile)
+            DocToPdf([path], [tempFile])
+        else:
+            tempFile = path
+        listOfPdfs.append(tempFile)
+    strPageList = ["*"] * len(listOfPdfs)
+    apiMergePdf(listOfPdfs, strPageList, None, outputFilePath)
+    deleteFiles(tempPdfList)
