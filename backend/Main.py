@@ -99,6 +99,7 @@ def getMaxPageCount (inputFilePath):
     :param inputFilePath:
     :return:
     """
+    print("&&&&", inputFilePath)
     inputFile = open(inputFilePath, "rb")
     inFileReader = PyPDF2.PdfFileReader(inputFile)
     numberOfPages = inFileReader.numPages
@@ -199,7 +200,7 @@ def apiMergeDocPdf (pathToInputs, strPageList, orientation, outputFile) :
     :param outputFile:   string, output file name
     :return:
     """
-    input = []
+    listOfPdfs = []
     tempPdfFile = []
     for path in pathToInputs:
         if (isFileDoc(path)):
@@ -208,13 +209,8 @@ def apiMergeDocPdf (pathToInputs, strPageList, orientation, outputFile) :
             DocToPdf(path, tempFile)
         else:
             tempFile = path
-        input.append(tempFile)
-
-    pageList = []
-    for path,strRange in zip(input, strPageList):
-        pageList.append(expandPages(strRange, path))
-
-    MergePdf(input, pageList, orientation, outputFile)
+        listOfPdfs.append(tempFile)
+    apiMergePdf(listOfPdfs, strPageList, orientation, outputFile)
     deleteFiles (tempPdfFile)
     return
 
@@ -230,12 +226,12 @@ def apiGenericMerge (pathToInputs, strPageList, orientation, outputFile) :
     :return:
     """
     pageList = []
-    for path,strRange in zip(pathToInputs, strPageList):
-        pageList.append(expandPages(strRange, path))
+    print("************ generic")
+    print("inputs: ", pathToInputs," pages: ", strPageList)
     if (any([isFilePdf(path) for path in pathToInputs]) and any([isFileDoc(path) for path in pathToInputs])):
-        apiMergeDocPdf (pathToInputs, pageList, orientation, outputFile)
+        apiMergeDocPdf (pathToInputs, strPageList, orientation, outputFile)
     elif (all([isFilePdf(path) for path in pathToInputs])):
-        apiMergePdf (pathToInputs, pageList, orientation, outputFile)
+        apiMergePdf (pathToInputs, strPageList, orientation, outputFile)
     else:
         print (" have to code")
 
@@ -248,10 +244,10 @@ def apiMergePdf(inputFilePaths, pageLists, orientation, pathToOutputPdf):
     :param pathToOutputPdf:
     :return:
     """
-    # pageList = []
-    # for inputFileId in range(0,len(inputFilePaths)):
-    #     pages = expandPages (pageLists[inputFileId], getMaxPageCount (inputFilePaths[inputFileId]))
-    #     pageList.append(pages)
+    pageList = []
+    for inputFileId in range(0,len(inputFilePaths)):
+        pages = expandPages (pageLists[inputFileId], getMaxPageCount (inputFilePaths[inputFileId]))
+        pageList.append(pages)
     MergePdf(inputFilePaths, pageList, orientation, pathToOutputPdf)
     return
 

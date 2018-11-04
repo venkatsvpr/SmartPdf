@@ -1,10 +1,10 @@
 from Main import *
 
 
-FilePath = [" /path/one","path/two"]
-PageList = ["1,2-3,1,9", "8"]
-map =
-outfile = "/path/to/outfile"
-MergePdf
+pathToInputs = [r"C:\Users\nikhi\OneDrive\Desktop\hackathon\smartpdf\SmartPdf\backend\fedessa.docx",r"C:\Users\nikhi\OneDrive\Desktop\hackathon\smartpdf\SmartPdf\backend\Association1.pdf"]
+strPageList = ["*", "1"]
+orientation = ["hi","hello"]
+outputFile = r"C:\Users\nikhi\OneDrive\Desktop\hackathon\smartpdf\SmartPdf\backend\fedessa.pdf"
 
-MergePdf (pathToInputs, pageList, orientationDict, pathToOutputPdf)
+
+apiGenericMerge (pathToInputs, strPageList, orientation, outputFile)
