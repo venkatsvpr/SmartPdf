@@ -39,10 +39,12 @@ def WaterMark (inputPdfPath, waterMarkPath, pageList, outputPdfPath):
 
 def expandPages (strPageList, maxPageCount):
    """
+    Parses the input strings are converts into a list of page numbers.
+    Input "1,2-4,10,4"
+    Output  [1,2,3,4,10,4]
+
    :param strPageList:
    :return: list of page numbers
-   Input "1,2-4,10,4"
-   Output  [1,2,3,4,10,4]
    """
    pages = strPageList.split(',')
    page_numbers = []
@@ -63,6 +65,7 @@ def MergePdf (pathToInputs, pageList, orientationDict, pathToOutputPdf):
     TODO:
     Orientation, Testing the method
     Open the input file, pick the pages passed, do the orientation and push it to output.
+
     :param pathToInputs: List of path to input files
     :param pageList: use the output of expandPages
     :param orientationDict: Ignore
@@ -82,10 +85,12 @@ def MergePdf (pathToInputs, pageList, orientationDict, pathToOutputPdf):
                 pdfWriter.write(outFile)
         inputFileObject.close()
     outFile.close()
+    return
 
 def getMaxPageCount (inputFilePath):
     """
     Returns the Max Page Count of an input file
+
     :param inputFilePath:
     :return:
     """
@@ -103,8 +108,9 @@ def SplitPagesFromPdfFile (inputFilePath, strSplitRange, outputFilePath):
     :param outputFilePath: Output File Path
     :return: Nothing
     """
-    pageList = expandPages (strSplitRange, getMaxPageCount(inputFilePath)
+    pageList = expandPages (strSplitRange, getMaxPageCount(inputFilePath))
     MergePdf ([inputFilePath], pageList, None, outputFilePath)
+    return
 
 def DocToPdf (listOfDocFilePath, listOfOutputFilePath):
     """
@@ -125,5 +131,56 @@ def DocToPdf (listOfDocFilePath, listOfOutputFilePath):
         doc.Close()
         word.Quit()
     return
+
+def isFilePdf (filePath):
+
+def isFileDoc (filePath):
+
+
+def genTempFileName (filePath):
+
+def deleteFiles (listOfFilesToDelete):
+
+def apiMergeDocPdf (pathToInputs, strPageList, orientation, outputFile) :
+    input = []
+    tempPdfFile = []
+    for path in pathToInputs:
+        if (isFileDoc(path)):
+            tempFile = genTempFileName(path)
+            tempPdfFile.append(tempFile)
+            DocToPdf(path, tempFile)
+        else:
+            tempFile = path
+        input.append(tempFile)
+
+    pageList = []
+    for path,strRange in zip(input, strPageList):
+        pageList.append(expandPages(strRange, path))
+
+    MergePdf(input, pageList, orientation, outputFile)
+    deleteFiles (tempPdfFile)
+    return
+
+
+def apiGenericMerge (pathToInputs, strPageList, orientation, outputFile) :
+    pageList = []
+    for path,strRange in zip(pathToInputs, strPageList):
+        pageList.append(expandPages(strRange, path))
+    if (any([isFilePdf(path) for path in pathToInputs]) and any([isFileDoc(path) for path in pathToInputs])):
+        apiMergeDocPdf (pathToInputs, pageList, orientation, outputFile)
+    elif (all[isFilePdf(path) for path in pathToInputs]):
+        apiMergePdf (pathToInputs, pageList, orientation, outputFile)
+    else:
+        print (" have to code")
+
+def apiMergePdf(inputFilePaths, pageLists, pathToOutputPdf):
+    pageList = []
+    for inputFileId in range(0,len(inputFilePaths)):
+        pages = expandPages (pageLists[inputFileId], getMaxPageCount (inputFilePaths[inputFileId]))
+        pageList.append(pages)
+    MergePdf(inputFilePaths, pageList, None, pathToOutputPdf)
+    return
+
+def ApiMergeDocPdf ()
 path = r"D:\Git_Projects\SmartPdf\1.pdf"
 MergePdf ([path,path],[[3,4],[1,2,3]],["one","two"],"D:\Git_Projects\SmartPdf\out.pdf")
