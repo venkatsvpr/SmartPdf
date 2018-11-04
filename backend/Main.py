@@ -193,14 +193,6 @@ def deleteFiles (listOfFilesToDelete):
     :param listOfFilesToDelete:
     :return: Nothing
     """
-    if(len(listOfFilesToDelete) > 0):
-        tempdir = os.path.dirname(listOfFilesToDelete[0])
-    for tempFile in listOfFilesToDelete:
-        try:
-            os.remove(tempFile)
-        except OSError:
-            pass
-    return
 
 def apiMergeDocPdf (pathToInputs, strPageList, orientation, outputFile) :
     """

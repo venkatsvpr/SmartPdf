@@ -1,10 +1,12 @@
 from Main import *
 
 
-pathToInputs = [r"C:\Users\nikhi\OneDrive\Desktop\hackathon\smartpdf\SmartPdf\backend\fedessa.docx",r"C:\Users\nikhi\OneDrive\Desktop\hackathon\smartpdf\SmartPdf\backend\Association1.pdf"]
-strPageList = ["*", "1"]
+pathToInputs = [r"C:\Users\nikhi\OneDrive\Desktop\hackathon\smartpdf\SmartPdf\backend\fedessa.docx"]
+strPageList = ["*"]
+waterMarkFilePath = r"C:\Users\nikhi\OneDrive\Desktop\hackathon\smartpdf\SmartPdf\backend\watermarker.pdf"
 orientation = ["hi","hello"]
-outputFile = r"C:\Users\nikhi\OneDrive\Desktop\hackathon\smartpdf\SmartPdf\backend\fedessa.pdf"
+outputFilePath = r"C:\Users\nikhi\OneDrive\Desktop\hackathon\smartpdf\SmartPdf\backend\checkfede.pdf"
 
-
-apiGenericMerge (pathToInputs, strPageList, orientation, outputFile)
+#apiWaterMark(inputFilePaths, strPageList, waterMarkFilePath, orientation, pathToOutputPdf)
+#apiGenericMerge (pathToInputs, strPageList, orientation, outputFile)
+apiWordToPdf (pathToInputs, outputFilePath)
