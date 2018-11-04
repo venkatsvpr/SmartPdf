@@ -230,12 +230,13 @@ def apiGenericMerge (pathToInputs, strPageList, orientation, outputFile) :
     :return:
     """
     pageList = []
-    if (any([isFilePdf(path) for path in pathToInputs]) and any([isFileDoc(path) for path in pathToInputs])):
-        apiMergeDocPdf (pathToInputs, strPageList, orientation, outputFile)
-    elif (all([isFilePdf(path) for path in pathToInputs])):
+    if (all([isFilePdf(path) for path in pathToInputs])):
         apiMergePdf (pathToInputs, strPageList, orientation, outputFile)
+    elif (all([isFilePdf(path) or isFileDoc(path) for path in pathToInputs])):
+        apiMergeDocPdf (pathToInputs, strPageList, orientation, outputFile)
     else:
-        print (" have to code")
+        print("Invalid input format.")
+
 
 def apiMergePdf(inputFilePaths, pageLists, orientation, pathToOutputPdf):
     """
